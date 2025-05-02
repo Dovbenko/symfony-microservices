@@ -50,3 +50,27 @@
 
 # Embedded web-server pid file
 /.web-server-pid
+
+# Config files
+.env
+.env.dev
+.env.local
+.env.*.local
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Additional Symfony specific files
+/public/bundles/
+/public/build/
+/public/uploads/
+
+# Node and frontend
+/node_modules/
+/yarn.lock
+/package-lock.json
+
+
