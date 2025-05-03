@@ -21,8 +21,8 @@ A Symfony-based microservice for generating images from text prompts using OpenA
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
-cd [repository-name]
+git clone https://github.com/Dovbenko/symfony-microservices.git
+cd symfony-microservices
 ```
 
 2. Install dependencies:
