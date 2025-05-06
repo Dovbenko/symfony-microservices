@@ -2,74 +2,49 @@
 
 namespace App\Service;
 
+use App\Exception\ImageGenerationException;
 use LLPhant\Image\Image;
 use LLPhant\Image\OpenAIImage;
 use LLPhant\OpenAIConfig;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 /**
  * Service for generating images using OpenAI's DALL-E model.
  * 
- * This service implements the ImageGenerationServiceInterface and provides
+ * This service extends the base AbstractGenerationService and provides
  * functionality to generate images from text prompts using the DALL-E API.
  * It handles API configuration, prompt validation, and error handling.
  */
-class ImageGenerationService
+class ImageGenerationService extends AbstractGenerationService
 {
-    /** @var string The default model to use for image generation */
-    private const DEFAULT_MODEL = 'dall-e-3';
-
-    /**
-     * @param ParameterBagInterface $params Service for accessing application parameters and environment variables
-     */
-    public function __construct(
-        private readonly ParameterBagInterface $params
-    ) {
-    }
-
     /**
      * Generates an image from the given prompt
      *
      * @param string $prompt The text prompt to generate the image from
      * @return Image The URL of the generated image
-     * @throws \InvalidArgumentException If the prompt is invalid
-     * @throws ServiceUnavailableHttpException If the image generation fails
+     * @throws ImageGenerationException If the image generation fails
      */
-    public function generateImageFromPrompt(string $prompt): Image
+    public function generateFromPrompt(string $prompt): Image
     {
         try {
-            $config = $this->createOpenAIConfig();
-            $imageGenerator = new OpenAIImage($config);
+            $config = $this->createConfig();
+            $imageGenerator = $this->createImageGenerator($config);
             
             return $imageGenerator->generateImage($prompt);
         } catch (\Exception $e) {
-            throw new ServiceUnavailableHttpException(
-                null,
-                'Failed to generate image: ' . $e->getMessage(),
-                $e
+            throw new ImageGenerationException(
+                'Failed to generate image: ' . $e->getMessage()
             );
         }
     }
 
     /**
-     * Creates and configures the OpenAI configuration
+     * Creates an image generator instance
      *
-     * @return OpenAIConfig
-     * @throws \RuntimeException If the API key is not configured
+     * @param OpenAIConfig $config The OpenAI configuration
+     * @return OpenAIImage
      */
-    private function createOpenAIConfig(): OpenAIConfig
+    private function createImageGenerator(OpenAIConfig $config): OpenAIImage
     {
-        $apiKey = $this->params->get('app.openai_api_key');
-        
-        if (empty($apiKey)) {
-            throw new \RuntimeException('OpenAI API key is not configured');
-        }
-
-        $config = new OpenAIConfig();
-        $config->model = self::DEFAULT_MODEL;
-        $config->apiKey = $apiKey;
-        
-        return $config;
+        return new OpenAIImage($config);
     }
 }
