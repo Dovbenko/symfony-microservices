@@ -68,7 +68,7 @@ class ImageController extends AbstractController
     ): JsonResponse
     {
         try {
-            $imageUrl = $this->imageService->generateImageFromPrompt($prompt->prompt);
+            $imageUrl = $this->imageService->generateFromPrompt($prompt->prompt);
             
             return JsonResponse::success(['image_url' => $imageUrl]);
         } catch (\Exception $e) {
