@@ -10,11 +10,11 @@ use LLPhant\OpenAIConfig;
 /**
  * Service for generating images using OpenAI's DALL-E model.
  * 
- * This service extends the base AbstractGenerationService and provides
+ * This service extends the base AbstractGeneration and provides
  * functionality to generate images from text prompts using the DALL-E API.
  * It handles API configuration, prompt validation, and error handling.
  */
-class ImageGenerationService extends AbstractGenerationService
+class GenerationImage extends AbstractGeneration
 {
     /**
      * Generates an image from the given prompt

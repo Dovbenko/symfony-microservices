@@ -7,13 +7,13 @@ use LLPhant\OpenAIConfig;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
- * Base service for generating content using OpenAI models.
+ * Base class for generating content using OpenAI models.
  * 
  * This abstract class provides common functionality for services that
  * generate content using OpenAI models. It handles API configuration,
  * parameter management, and common error handling patterns.
  */
-abstract class AbstractGenerationService implements GenerationServiceInterface
+abstract class AbstractGeneration implements GenerationInterface
 {
     /** @var string The default model to use for generation */
     protected const DEFAULT_MODEL = 'dall-e-3';
