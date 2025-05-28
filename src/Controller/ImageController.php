@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\DTO\Prompt;
 use App\Response\JsonResponse;
-use App\Service\ImageGenerationService;
+use App\Service\GenerationImage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -25,11 +25,11 @@ class ImageController extends AbstractController
     /**
      * Initializes the image controller with required services.
      * 
-     * @param ImageGenerationService $imageService Service responsible for generating images using AI
+     * @param GenerationImage $imageService Service responsible for generating images using AI
      * @param SerializerInterface $serializer Service for handling JSON serialization/deserialization
      */
     public function __construct(
-        private readonly ImageGenerationService $imageService,
+        private readonly GenerationImage $imageService,
         private readonly SerializerInterface $serializer
     ) {
     }

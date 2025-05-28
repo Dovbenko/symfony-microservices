@@ -15,7 +15,7 @@ use LLPhant\OpenAIConfig;
  * error handling and response formats.
  * 
  */
-interface GenerationServiceInterface
+interface GenerationInterface
 {
     /**
      * Generates content from the given prompt

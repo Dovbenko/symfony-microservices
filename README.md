@@ -84,11 +84,12 @@ src/
 ├── Controller/
 │   └── ImageController.php      # Handles image generation requests
 ├── DTO/
-│   └── Prompt.php              # Data Transfer Object for prompts
+│   └── Prompt.php               # Data Transfer Object for prompts
 ├── Response/
-│   └── JsonResponse.php        # Standardized JSON response format
+│   └── JsonResponse.php         # Standardized JSON response format
 └── Service/
-    └── ImageGenerationService.php  # Handles image generation logic
+    └── GenerationImage.php      # Handles image generation logic
+    └── GenerationChat.php       # Handles chat generation logic
 ```
 
 ## Error Handling
