@@ -7,7 +7,6 @@ use App\Response\JsonResponse;
 use App\Service\GenerationImage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
 /**
@@ -21,18 +20,6 @@ class ImageController extends AbstractController
 {
     /** @var string The expected content type for incoming requests */
     private const JSON_CONTENT_TYPE = 'json';
-
-    /**
-     * Initializes the image controller with required services.
-     * 
-     * @param GenerationImage $imageService Service responsible for generating images using AI
-     * @param SerializerInterface $serializer Service for handling JSON serialization/deserialization
-     */
-    public function __construct(
-        private readonly GenerationImage $imageService,
-        private readonly SerializerInterface $serializer
-    ) {
-    }
 
     /**
      * Generates an image from a text prompt.
@@ -64,11 +51,12 @@ class ImageController extends AbstractController
      */
     #[Route('/api/generate-image', name: 'generate_image', methods: ['POST'], format: self::JSON_CONTENT_TYPE)]
     public function generateImage(
-        #[MapRequestPayload] Prompt $prompt
+        #[MapRequestPayload] Prompt $prompt,
+        GenerationImage $imageService
     ): JsonResponse
     {
         try {
-            $imageUrl = $this->imageService->generateFromPrompt($prompt->prompt);
+            $imageUrl = $imageService->generateFromPrompt($prompt->prompt);
             
             return JsonResponse::success(['image_url' => $imageUrl]);
         } catch (\Exception $e) {
